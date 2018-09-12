@@ -1,0 +1,133 @@
+package SpellChecker;
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.io.File;
+import java.io.FileNotFoundException;
+
+/** Spell checking class for assignment 3
+ * @author Michael Forman
+ *
+ */
+public class SpellChecker {
+
+	static ArrayList<String> dictionaryWords = new ArrayList<String>();
+	static ArrayList<String> fileWords = new ArrayList<String>();
+	static int fileIsThere = 1;
+	static Scanner keyboard = new Scanner(System.in);
+
+	/** Main method
+	 * @param args not used
+	 */
+	public static void main(String[] args) {
+		String fileToCheck;
+		String dictionaryFile;
+		
+		fileToCheck = getFileToCheck(); //get filename of checked file with error checking
+		dictionaryFile = getFileToCheck();//get filename of dictionary file with error checking
+		
+		fileWords = fillArrayList(fileToCheck, fileWords);
+		dictionaryWords = fillArrayList(dictionaryFile, dictionaryWords);
+		
+			/*try {//reads dictionary file into string array
+				File dictionaryWordFile = new File(dictionaryFile);
+				Scanner input = new Scanner(dictionaryWordFile);
+					while (input.hasNextLine()) {
+						String dictWord = input.nextLine();
+						try {
+						
+						dictionaryWords.add(dictWord);
+						} 
+						catch (IllegalArgumentException e) {
+							System.out.println(e.getMessage());
+						}
+					}
+			}
+			catch (FileNotFoundException e) {
+			System.out.println(e.getMessage());
+			}
+		
+			try {//reads file to be checked into string array
+				File mainWordFile = new File(fileToCheck);
+				Scanner input = new Scanner(mainWordFile);
+					while (input.hasNextLine()) {
+						String dictWord = input.nextLine();
+						try {
+						
+							fileWords.add(dictWord);
+						} //end 2nd Try
+						catch (IllegalArgumentException e) {
+							System.out.println(e.getMessage());
+						}//End catch
+					}//end while
+			}//end first try
+			catch (FileNotFoundException e) {
+			System.out.println(e.getMessage());
+			}//end catch
+	*/
+			for (String fileWord : fileWords){//iterates the to be checked file for bad words
+				checkForTheWord(fileWord);
+			}
+			System.out.println("Checking Complete!");
+			System.exit(0);
+		}
+			
+	/** method to check for the presense of the word in the dictionary
+	 * @param theWord word to be checked against dictionary
+	 */
+	public static void checkForTheWord(String theWord){
+				if (dictionaryWords.contains(theWord) == true) {
+				return;
+				}
+				System.out.println(theWord + " is an unknown word.");
+				return;
+		}//end if
+		
+	/** Method to get name of the file to be checked. Checks for errors
+	 * @return fileToCheck filename of file to be checked
+	 */
+	public static String getFileToCheck() {
+			fileIsThere = 1;
+			String fileToCheck = "";
+		do	 {
+		System.out.println("Input the file to check: ");
+		fileToCheck = keyboard.nextLine();
+		File mainWordFile = new File(fileToCheck);
+		if (mainWordFile.exists() == true){
+			fileIsThere = 0;
+		}//end if
+		else {
+			System.out.println("File does not exist. Please re-enter.");
+		}
+		}//end do
+		while (fileIsThere == 1);
+		return fileToCheck;
+		}
+
+
+	public static ArrayList<String> fillArrayList(String fileToBeRead, ArrayList<String> arrayToBeFilled) {
+		try {//reads dictionary file into string array
+			File dictionaryWordFile = new File(fileToBeRead);
+			Scanner input = new Scanner(dictionaryWordFile);
+				while (input.hasNextLine()) {
+					String dictWord = input.nextLine();
+					try {
+					
+						arrayToBeFilled.add(dictWord);
+					} 
+					catch (IllegalArgumentException e) {
+						System.out.println(e.getMessage());
+					}
+				}
+		}
+		catch (FileNotFoundException e) {
+		System.out.println(e.getMessage());
+		}
+		return arrayToBeFilled;
+	}
+	
+
+}
+
+
+

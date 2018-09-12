@@ -1,0 +1,18 @@
+package SpellChecker;
+
+public class SpellCheckerDictionary {
+
+	private String word;
+	
+	public SpellCheckerDictionary(String wordFromDictionary) {
+		this.setWord(wordFromDictionary);
+	}
+
+	public String getWord() {
+		return word;
+	}
+
+	public void setWord(String word) {
+		this.word = word;
+	}
+}

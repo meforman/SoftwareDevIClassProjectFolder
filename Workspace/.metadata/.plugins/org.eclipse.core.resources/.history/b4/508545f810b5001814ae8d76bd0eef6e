@@ -1,0 +1,73 @@
+package SpellChecker;
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.io.File;
+import java.io.FileNotFoundException;
+
+
+
+public class SpellChecker {
+
+	public static void main(String[] args) {
+		String fileToCheck;
+		String dictionaryFile;
+		Scanner keyboard;
+		
+		ArrayList<SpellCheckerDictionary> dictionaryWords = new ArrayList<SpellCheckerDictionary>();
+		
+		keyboard = new Scanner(System.in);
+		
+		System.out.println("Input the file to check: ");
+		fileToCheck = keyboard.nextLine();
+		File mainWordFile = new File(fileToCheck);
+		System.out.println("Input dictionary filename: ");
+		dictionaryFile = keyboard.nextLine();
+		File dictionaryWordFile = new File(dictionaryFile);
+		
+		if (dictionaryWordFile.exists()){
+			try {
+				Scanner input = new Scanner(dictionaryWordFile);
+					while (input.hasNextLine()) {
+						String dictWord = input.nextLine();
+						try {
+						SpellCheckerDictionary word = new SpellCheckerDictionary(dictWord);
+						dictionaryWords.add(word);
+						} //end 2nd Try
+						catch (IllegalArgumentException e) {
+							System.out.println(e.getMessage());
+							
+						}//End catch
+					}//end while
+			}//end first try
+			catch (FileNotFoundException e) {
+				e.getMessage();
+			}//end catch
+		}//end if
+		for(SpellCheckerDictionary word : dictionaryWords) {
+			System.out.println(word.getWord());
+			
+		}
+		
+		if (mainWordFile.exists()){
+			try {
+				Scanner input = new Scanner(mainWordFile);
+					while (input.hasNextLine()) {
+						String fileWord = input.nextLine();
+						for(SpellCheckerDictionary word : dictionaryWords) {
+							if (word.getWord() == fileWord){
+								
+							}
+							else System.out.println(fileWord + " is an unknown word.");
+								
+							}
+						
+					}//end while
+			}//end first try
+			catch (FileNotFoundException e) {
+				e.getMessage();
+			}//end catch
+		}//end if
+
+	}
+
+}
